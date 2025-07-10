@@ -2,55 +2,67 @@
 
 ## Overview
 
-This project uses Python and FastAPI to build the requested api `/generate`. The entire project uses docker to bring simplicity in setting it up so that it can be tested quickly. I assume the local system does not have ollama and I have created an image dedicated for that so that contained can be spawned from that. Stubbed response was easy and I thougt ollama will add this project with some weight. 
+This project implements a lightweight REST API using **Python** and **FastAPI** with a single `/generate` endpoint to simulate text generation. The entire application is **containerized using Docker**, making it easy to set up and run locally without requiring manual installation of dependencies like Ollama or any models.
+
+While the stubbed response was simple to implement, this project also integrates a local LLM using **Ollama** and the **Mistral** model to enhance realism and demonstrate local model usage without relying on cloud APIs.
 
 ## Features
 
-- **FastAPI Framework**: Clean, async-first Python API framework.
-- **Single Endpoint**: `POST /generate` to simulate text generation.
-- **Model-Based Response**: Mistral model is used in this project however we can edit to use any model.
-- **Logging**: Logs each prompt and generated response to `logs/log.jsonl` (JSON Lines format).
-- **Dockerized**: Uses Docker Compose to spin up the FastAPI app and Ollama in one command.
+* ⚡ **FastAPI**: Modern, async-first web framework for building APIs in Python.
+* 🔥 **Single Endpoint**: `POST /generate` for prompt-based text generation.
+* 🧠 **Local LLM Integration**: Uses the **Mistral** model via Ollama (easily switchable to others like LLaMA2).
+* 📄 **Logging**: All prompts and their generated responses are logged in `logs/log.jsonl` using JSON Lines format.
+* 🐳 **Dockerized**: Includes a `docker-compose.yml` for easy setup of both the API and Ollama containers.
 
-### Installation
+---
 
-The setup would require the host system to have docker installed. Please ensure the docker is installed and it will need just one command to run the project. Also, while setting up the ollama container, pulling the model from the registery takes some time, so please allow some time for the entire installation to finish which would take about 5-10 minutes.
+## Installation
 
-1.  **Clone the repository:**
-    
-2.  **Navigate to the project directory:**
+> 🛠 **Prerequisite**: Docker must be installed on your machine.
 
-    ```bash
-    cd minivault-api
-    ```
-2.  **Allow permission to the script file:**
-
-    ```bash
-    chmod +x ollama/start-ollama.sh
-    ```
-
-3.  **Run the docker compose command:**
+1. **Clone the repository**
 
    ```bash
-    docker compose up
-    ```
+   git clone https://github.com/your-username/minivault-api.git
+   ```
 
-### Testing
+2. **Navigate into the project directory**
 
-Use the curl command below to test:
+   ```bash
+   cd minivault-api
+   ```
 
- ```bash
-    curl -X POST http://localhost:8000/generate \
+3. **Make the startup script executable**
+
+   ```bash
+   chmod +x ollama/start-ollama.sh
+   ```
+
+4. **Start the project using Docker Compose**
+
+   ```bash
+   docker compose up
+   ```
+
+> ⚠️ The initial setup may take **5–10 minutes**, as the Ollama container pulls and prepares the model.
+
+---
+
+## Testing the API
+
+You can test the `/generate` endpoint using `curl`:
+
+```bash
+curl -X POST http://localhost:8000/generate \
   -H "Content-Type: application/json" \
   -d '{"prompt": "Tell me a fun fact about llamas."}'
 ```
 
+---
 
-### Future Improments
+## Future Improvements
 
-Currently, the project uses just one file to contain the apis however as we do it one production, we can use Controller, Repository, Services architecture to modularise each piece of the fucntionality as required. This project is built for simplicity. Also, the model that I have used is mistral instead of llama2 which would have taken a lot of time to setup. 
+* 🔧 **Code Structure**: The current implementation keeps everything in a single file for simplicity. For a production-grade application, the project can be modularized using a layered architecture (e.g., **Controller-Service-Repository**).
+* 🤖 **Model Selection**: The current setup uses the **Mistral** model to reduce download/setup time. It can be easily updated to use **LLaMA2** or any other Ollama-compatible model by modifying the Docker environment or startup script.
 
-
-
-
-
+---
